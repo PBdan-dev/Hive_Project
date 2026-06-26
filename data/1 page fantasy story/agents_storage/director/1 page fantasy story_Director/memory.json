@@ -1,0 +1,18 @@
+[
+    {
+        "role": "user",
+        "content": "Analyze this project brief: 'The project is to write in french a story for an young adult, it's a fantasy story in a magic world, the lore is very uncommon and the hero is a girl with a weird power and a dark backstory. It's not too much, it's just enough to be really interesting. \n'.\nGenerate the required team structure.\nRespond ONLY with a JSON matching this exact structure. Use short, unique words for 'team_name' and 'task_name' (e.g., 'Backend', 'UI', 'Database'):\n{\n  \"managers\": [\n    {\n      \"team_name\": \"ShortTeamName\",\n      \"role\": \"Detailed description of their role\",\n      \"employees\": [\n        {\"task_name\": \"ShortTaskName\", \"role\": \"Their specific role\"}\n      ]\n    }\n  ]\n}"
+    },
+    {
+        "role": "assistant",
+        "content": "{\n  \"managers\": [\n    {\n      \"team_name\": \"Story\",\n      \"role\": \"Directs overall narrative vision, enforces French language standards, and balances scope.\",\n      \"employees\": [\n        {\"task_name\": \"Lore\", \"role\": \"Crafts unusual magical ecosystems and cultural frameworks.\"},\n        {\"task_name\": \"Hero\", \"role\": \"Shapes the female protagonist’s psychology, powers, and traumatic past.\"},\n        {\"task_name\": \"Beat\", \"role\": \"Maps plot progression ensuring tight pacing and YA appeal.\"},\n        {\"task_name\": \"Text\", \"role\": \"Composes the draft in idiomatic French with consistent voice.\"},\n        {\"task_name\": \"Polish\", \"role\": \"Edits for clarity, removes excess content, and sharpens emotional impact.\"}\n      ]\n    }\n  ]\n}"
+    },
+    {
+        "role": "user",
+        "content": "Analyze this project brief: 'The project is to write in french a story for an young adult, it's a fantasy story in a magic world, the lore is very uncommon and the hero is a girl with a weird power and a dark backstory. It's not too much, it's just enough to be really interesting. \n'.\nGenerate the required team structure.\nRespond ONLY with a JSON matching this exact structure. Use short, unique words for 'team_name' and 'task_name' (e.g., 'Backend', 'UI', 'Database'):\n{\n  \"managers\": [\n    {\n      \"team_name\": \"ShortTeamName\",\n      \"role\": \"Detailed description of their role\",\n      \"employees\": [\n        {\"task_name\": \"ShortTaskName\", \"role\": \"Their specific role\"}\n      ]\n    }\n  ]\n}"
+    },
+    {
+        "role": "assistant",
+        "content": "{\n  \"managers\": [\n    {\n      \"team_name\": \"Fiction\",\n      \"role\": \"Oversees creative direction, maintains French linguistic accuracy, and ensures concise yet compelling storytelling.\",\n      \"employees\": [\n        {\"task_name\": \"World\", \"role\": \"Designs unconventional magic systems and setting rules.\"},\n        {\"task_name\": \"Hero\", \"role\": \"Develops the female lead's abilities, trauma, and psychological depth.\"},\n        {\"task_name\": \"Plot\", \"role\": \"Structures the narrative arc for maximum impact within limited scope.\"},\n        {\"task_name\": \"Draft\", \"role\": \"Composes the manuscript in fluent, evocative French.\"},\n        {\"task_name\": \"Edit\", \"role\": \"Refines prose, trims excess, ensures YA tone and pacing consistency.\"}\n      ]\n    }\n  ]\n}"
+    }
+]

@@ -1,0 +1,1 @@
+Erreur : Le fichier template 'director_prompt.txt' est introuvable au chemin C:\Users\pbdan\source\repos\Hive_Project\src\core\..\agents\templates\director_prompt.txt
