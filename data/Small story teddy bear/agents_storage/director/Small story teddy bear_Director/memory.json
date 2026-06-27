@@ -1,0 +1,10 @@
+[
+    {
+        "role": "user",
+        "content": "Analyze this project brief: 'This is a small story for a child, around 1 page of 1000 words not more, to tell the story to a child. Give details and be nice, add some morale to the story. '.\nGenerate the required team structure.\nRespond ONLY with a JSON matching this exact structure. Use short, unique words for 'team_name' and 'task_name' (e.g., 'Backend', 'UI', 'Database'):\n{\n  \"managers\": [\n    {\n      \"team_name\": \"ShortTeamName\",\n      \"role\": \"Detailed description of their role\",\n      \"employees\": [\n        {\"task_name\": \"ShortTaskName\", \"role\": \"Their specific role\"}\n      ]\n    }\n  ]\n}"
+    },
+    {
+        "role": "assistant",
+        "content": "{\n  \"managers\": [\n    {\n      \"team_name\": \"Architect\",\n      \"role\": \"Designs the story's core concept, including protagonist, setting, conflict, resolution, and the underlying moral lesson.\",\n      \"employees\": [\n        {\"task_name\": \"Blueprint\", \"role\": \"Creates a structured narrative outline detailing plot beats, character arcs, and thematic focus.\"}\n      ]\n    },\n    {\n      \"team_name\": \"Scribe\",\n      \"role\": \"Composes the complete narrative draft, focusing on vivid details, gentle tone, and age-appropriate engagement for children.\",\n      \"employees\": [\n        {\"task_name\": \"Inkwell\", \"role\": \"Writes the full story text, integrating sensory details and maintaining a warm, instructive voice within the target length.\"}\n      ]\n    },\n    {\n      \"team_name\": \"Editor\",\n      \"role\": \"Reviews and refines the draft to ensure strict adherence to the 1000-word limit, verifies moral clarity, and optimizes readability.\",\n      \"employees\": [\n        {\"task_name\": \"Proof\", \"role\": \"Edits for pacing, trims redundant sections, enhances vocabulary suitability, and performs final constraint validation.\"}\n      ]\n    }\n  ]\n}"
+    }
+]
