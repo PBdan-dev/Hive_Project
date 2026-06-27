@@ -76,7 +76,6 @@ def generate_team_from_director(director: AIAgent, project_brief: str):
     print("[Workplace] : Team creation with strict nomenclature...")
     project = format_name(director.project_name)
     
-    # Chargement des pré-prompts pour l'initialisation des répertoires
     manager_template = get_template_prompt("manager_preprompt.txt")
     employee_template = get_template_prompt("employee_preprompt.txt")
     
@@ -85,12 +84,10 @@ def generate_team_from_director(director: AIAgent, project_brief: str):
             team = format_name(manager['team_name'])
             manager_name = f"{project}_{team}_Manager"
             
-            # Assemblage complet du prompt système initial du manager
             full_manager_prompt = f"{manager_template}\n\nYour Team Role:\n{manager['role']}"
             setup_agent_directory(director.project_name, "managers", manager_name, full_manager_prompt)
             print(f" -> Created: {manager_name}")
             
-            # Mise à jour de l'état par le Manager lors de la planification de ses employés
             log_state_milestone(
                 director.project_name, "In Progress", f"Manager {team} Initialization", 
                 f"Manager {manager_name} defined the sub-tasks for their team."
@@ -100,7 +97,6 @@ def generate_team_from_director(director: AIAgent, project_brief: str):
                 task = format_name(employee['task_name'])
                 employee_name = f"{project}_{team}_{task}_Employee"
                 
-                # Assemblage complet du prompt système initial de l'employé
                 full_employee_prompt = f"{employee_template}\n\nYour Task Role:\n{employee['role']}"
                 setup_agent_directory(director.project_name, "employees", employee_name, full_employee_prompt)
                 print(f"    -> Created: {employee_name}")
@@ -113,23 +109,30 @@ def generate_team_from_director(director: AIAgent, project_brief: str):
 
 
 def execute_project_workflow(director: AIAgent, team_structure: dict, project_brief: str):
-    """Exécute la production de A à Z (Séquentiel strict)"""
+    """Exécute la production de A à Z avec support Pause/Reprise"""
+    project_dir = os.path.join("data", director.project_name)
+    state_file = os.path.join(project_dir, "state.json")
     
-    log_state_milestone(director.project_name, "In Progress", "Team Assembly Completed", "All structures and agents are initialized.")
+    state = load_json(state_file, {"status": "In Progress", "completed_tasks": [], "history": []})
+    if state.get("status") == "Paused":
+        return True
+        
+    log_state_milestone(director.project_name, "In Progress", "Execution Resumed", "The execution loop has been triggered.")
     project_name_clean = format_name(director.project_name)
     all_managers_artifacts = []
 
     manager_template = get_template_prompt("manager_preprompt.txt")
     employee_template = get_template_prompt("employee_preprompt.txt")
 
-    # Boucle sur les Managers
     for manager_data in team_structure.get("managers", []):
+        # Vérification Pause entre les managers
+        state = load_json(state_file)
+        if state.get("status") == "Paused": return True
+
         team_name = format_name(manager_data['team_name'])
         manager_name = f"{project_name_clean}_{team_name}_Manager"
-        
-        log_state_milestone(director.project_name, "In Progress", f"Manager {team_name} Activation", f"Manager {manager_name} is starting supervising duties.")
-        
         manager_system_prompt = f"{manager_template}\n\nYour Team Role:\n{manager_data['role']}"
+        
         manager_agent = AIAgent(
             name=manager_name, role=manager_data['role'], role_category="managers",
             project_name=director.project_name, system_prompt=manager_system_prompt, 
@@ -138,12 +141,25 @@ def execute_project_workflow(director: AIAgent, team_structure: dict, project_br
         
         team_artifacts = []
         
-        # Boucle sur les Employés
         for emp_data in manager_data.get("employees", []):
+            # Vérification Pause entre les employés
+            state = load_json(state_file)
+            if state.get("status") == "Paused": return True
+
             task_name = format_name(emp_data['task_name'])
             emp_name = f"{project_name_clean}_{team_name}_{task_name}_Employee"
+            task_id = f"employee_{emp_name}"
+            artifact_filename = f"artifact_{emp_name}.md"
             
-            log_state_milestone(director.project_name, "In Progress", f"Employee {task_name} Working", f"Employee {emp_name} is processing assigned sub-task.")
+            # Récupération de l'artifact existant si déjà complété
+            emp_artifact_path = os.path.join(project_dir, "agents_storage", "employees", emp_name, artifact_filename)
+            if task_id in state.get("completed_tasks", []) and os.path.exists(emp_artifact_path):
+                with open(emp_artifact_path, 'r', encoding='utf-8') as f:
+                    emp_result = f.read()
+                team_artifacts.append(f"--- Task: {task_name} (by {emp_name}) ---\n{emp_result}\n")
+                continue
+            
+            log_state_milestone(director.project_name, "In Progress", f"Employee {task_name} Working", f"Employee {emp_name} is processing task.")
             
             employee_system_prompt = f"{employee_template}\n\nYour Task Role:\n{emp_data['role']}"
             employee_agent = AIAgent(
@@ -152,37 +168,67 @@ def execute_project_workflow(director: AIAgent, team_structure: dict, project_br
                 model_name=director.model_name
             )
             
-            emp_instruction = f"Based on the project brief: '{project_brief}', execute your role: {emp_data['role']}."
+            # Utilisation du brief dynamique actuel (potentiellement modifié par l'utilisateur)
+            current_brief = state.get("brief", project_brief)
+            emp_instruction = f"Based on the project brief: '{current_brief}', execute your role: {emp_data['role']}."
             emp_result = employee_agent.ask(emp_instruction)
             
-            # Sauvegarde Employé utilisant le préfixe artifact_ et son nom propre
-            artifact_filename = f"artifact_{emp_name}.md"
             employee_agent.save_artifact(artifact_filename, emp_result)
             team_artifacts.append(f"--- Task: {task_name} (by {emp_name}) ---\n{emp_result}\n")
             
-            log_state_milestone(director.project_name, "In Progress", f"Employee {task_name} Done", f"Employee {emp_name} finalized production and saved {artifact_filename}.")
+            # Enregistrement de la tâche accomplie
+            state = load_json(state_file)
+            if "completed_tasks" not in state: state["completed_tasks"] = []
+            state["completed_tasks"].append(task_id)
+            save_json(state_file, state)
             
-        # Action Manager (Agrégation & Validation)
-        log_state_milestone(director.project_name, "In Progress", f"Manager {team_name} Validation", f"Manager {manager_name} is aggregating and validating team productions.")
+            log_state_milestone(director.project_name, "In Progress", f"Employee {task_name} Done", f"Employee {emp_name} finalized production.")
+            
+        # Action Manager
+        state = load_json(state_file)
+        if state.get("status") == "Paused": return True
+        
+        mgr_task_id = f"manager_{manager_name}"
+        mgr_artifact_filename = f"artifact_{manager_name}_final.md"
+        mgr_artifact_path = os.path.join(project_dir, "agents_storage", "managers", manager_name, mgr_artifact_filename)
+        
+        if mgr_task_id in state.get("completed_tasks", []) and os.path.exists(mgr_artifact_path):
+            with open(mgr_artifact_path, 'r', encoding='utf-8') as f:
+                mgr_result = f.read()
+            all_managers_artifacts.append(f"--- Team: {team_name} Module ---\n{mgr_result}\n")
+            continue
+            
+        log_state_milestone(director.project_name, "In Progress", f"Manager {team_name} Validation", f"Manager {manager_name} is aggregating team productions.")
         
         mgr_instruction = "Synthesize and finalize the following outputs from your team into a cohesive module:\n" + "\n".join(team_artifacts)
         mgr_result = manager_agent.ask(mgr_instruction)
         
-        # Sauvegarde Manager utilisant le préfixe artifact_ et son nom propre
-        mgr_artifact_filename = f"artifact_{manager_name}_final.md"
         manager_agent.save_artifact(mgr_artifact_filename, mgr_result)
         all_managers_artifacts.append(f"--- Team: {team_name} Module ---\n{mgr_result}\n")
         
-        log_state_milestone(director.project_name, "In Progress", f"Manager {team_name} Done", f"Manager {manager_name} completed module integration into {mgr_artifact_filename}.")
+        state = load_json(state_file)
+        state["completed_tasks"].append(mgr_task_id)
+        save_json(state_file, state)
+        
+        log_state_milestone(director.project_name, "In Progress", f"Manager {team_name} Done", f"Manager {manager_name} completed module integration.")
 
-    # Action Directeur (Agrégation finale)
-    log_state_milestone(director.project_name, "In Progress", "Director Final Integration", f"Director {director.name} is building the final solution package.")
+    # Action Directeur Finale
+    state = load_json(state_file)
+    if state.get("status") == "Paused": return True
     
-    dir_instruction = "Combine all manager modules into the final project deliverable:\n" + "\n".join(all_managers_artifacts)
-    final_project_result = director.ask(dir_instruction)
-    
-    # Sauvegarde Finale Directeur
-    director.save_artifact("artifact_FINAL_PROJECT_OUTPUT.md", final_project_result)
-    log_state_milestone(director.project_name, "Completed", "Project Delivery", "Director integrated all modules. Deliverable saved as artifact_FINAL_PROJECT_OUTPUT.md.")
+    dir_task_id = "director_final"
+    if dir_task_id not in state.get("completed_tasks", []):
+        log_state_milestone(director.project_name, "In Progress", "Director Final Integration", f"Director {director.name} is building the final solution package.")
+        
+        dir_instruction = "Combine all manager modules into the final project deliverable:\n" + "\n".join(all_managers_artifacts)
+        final_project_result = director.ask(dir_instruction)
+        
+        director.save_artifact("artifact_FINAL_PROJECT_OUTPUT.md", final_project_result)
+        
+        state = load_json(state_file)
+        state["completed_tasks"].append(dir_task_id)
+        save_json(state_file, state)
+        
+        log_state_milestone(director.project_name, "Completed", "Project Delivery", "Director integrated all modules.")
     
     return True

@@ -34,8 +34,10 @@ def save_json(filepath: str, data):
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
 
-def load_json(filepath: str, default_value):
+def load_json(filepath: str, default_value=None):
     """Utilitaire pour charger un fichier JSON de manière sécurisée"""
+    if default_value is None:
+        default_value = {}
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             return json.load(f)

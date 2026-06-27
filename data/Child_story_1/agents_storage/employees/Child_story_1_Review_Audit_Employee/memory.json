@@ -1,0 +1,10 @@
+[
+    {
+        "role": "user",
+        "content": "Based on the project brief: 'I want you to make a child story with a teddy bear, it must be something short, around1000 words not more. \nAdd some morale to the story and some adventure', execute your role: Counts words and verifies adherence to the 1000-word maximum constraint.."
+    },
+    {
+        "role": "assistant",
+        "content": "**ACKNOWLEDGMENT & READINESS**\n**Role:** Word Count & Constraint Verifier\n**Status:** Active & Ready\n**Current Phase:** Awaiting Input Text\n\nPlease provide the complete draft/manuscript of the child's story. Upon receipt, I will:\n1. Perform an exact word count analysis.\n2. Verify strict adherence to the ≤1000-word maximum constraint.\n3. Submit the verification report for your validation before proceeding to any subsequent tasks.\n\nAwaiting manuscript submission to execute Task 1."
+    }
+]
