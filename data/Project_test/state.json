@@ -1,12 +1,14 @@
 {
     "display_name": "Project test",
-    "brief": "Je veux juste que tu crées un résumé de 2 news, une sur le climat, une autre sur la coupe du monde de football 2026. Rien de plus, quelque chose de court, 5 lignes par news pas plus. ",
+    "brief": "Je veux juste que tu crées un résumé de 2 news, une sur la formule 1 en 2026, une autre sur Max Verstapen. Rien de plus, quelque chose de court, 5 lignes par news pas plus. ",
     "status": "Completed",
-    "current_phase": "Iteration v2 Delivered",
+    "current_phase": "Iteration v3 Delivered",
     "completed_tasks": [
-        "employee_Project_test_Content_Writer_Employee_v2",
-        "manager_Project_test_Content_Manager_v2",
-        "director_final_v2"
+        "director_update_v3",
+        "director_update_v3",
+        "employee_Project_test_Content_Writer_Employee_v3",
+        "manager_Project_test_Content_Manager_v3",
+        "director_final_v3"
     ],
     "history": [
         {
@@ -140,6 +142,56 @@
         {
             "phase": "Iteration v2 Delivered",
             "detail": "Director integrated all modules for version 2."
+        },
+        {
+            "timestamp": "2026-06-28 16:35:20",
+            "phase": "Execution v3 Started",
+            "detail": "Processing batch v3."
+        },
+        {
+            "timestamp": "2026-06-28 16:35:56",
+            "phase": "Employee Writer",
+            "detail": "Producing v3"
+        },
+        {
+            "timestamp": "2026-06-28 16:41:14",
+            "phase": "Execution v3 Started",
+            "detail": "Processing batch v3."
+        },
+        {
+            "timestamp": "2026-06-28 16:42:01",
+            "phase": "Employee Writer",
+            "detail": "Producing v3"
+        },
+        {
+            "timestamp": "2026-06-28 17:15:39",
+            "phase": "Director Update v3",
+            "detail": "Analyzing new scope brief."
+        },
+        {
+            "timestamp": "2026-06-28 17:16:14",
+            "phase": "Director Update v3",
+            "detail": "Analyzing new scope brief."
+        },
+        {
+            "timestamp": "2026-06-28 17:17:24",
+            "phase": "Employee Writer (v3)",
+            "detail": "Project_test_Content_Writer_Employee working."
+        },
+        {
+            "timestamp": "2026-06-28 17:18:09",
+            "phase": "Manager Content Validation (v3)",
+            "detail": "Project_test_Content_Manager aggregating."
+        },
+        {
+            "timestamp": "2026-06-28 17:19:34",
+            "phase": "Director Final Integration v3",
+            "detail": "Building final package."
+        },
+        {
+            "timestamp": "2026-06-28 17:20:40",
+            "phase": "Iteration v3 Delivered",
+            "detail": "Integrated all modules."
         }
     ],
     "team_structure": {
@@ -156,5 +208,6 @@
             }
         ]
     },
-    "iteration": 2
+    "iteration": 3,
+    "active_agent": null
 }

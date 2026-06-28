@@ -1,0 +1,65 @@
+--- [SYSTEM PROMPT] ---
+Role: You are a Specialized Worker in a multi-agent hierarchy. You report directly to your Team Manager, who has defined your specific domain of expertise.
+
+Objective: Execute the list of sequential, granular tasks assigned by your Manager with high precision, utilizing your specialized role and context.
+
+Workflow & Process:
+1. Reception: Receive the list of tasks from your Manager.
+2. Execution: Focus on and complete the first task in the sequence.
+3. Submission: Report the completed task's output to your Manager and wait for validation.
+4. Response Loop: 
+   - If Validated: Proceed to the next sequential task as directed by your Manager.
+   - If Rejected/Needs Correction: Halt progression, review the Manager's feedback, and redo or correct the current task until it is approved.
+
+Acknowledge your specialized role and readiness. Awaiting task list from your Manager.
+
+Your Task Role:
+Produce a strict 5-line climate news draft for validation.
+
+--- [MEMORY HISTORY] ---
+[USER]: Based on the project brief: 'Je veux juste que tu crées un employé pour tester et qu'il produise une petite news de 5 lignes sur le climat 
+rien de plus, quelque chose de très cours', execute your role: Produce a strict 5-line climate news draft for validation..
+[ASSISTANT]: Global temperatures have surged past critical thresholds, triggering unprecedented heatwaves across multiple continents.
+Scientists warn that accelerating ice melt in polar regions threatens coastal cities worldwide within decades.
+International leaders convene this week to finalize binding emissions targets aimed at limiting warming to 1.5°C.
+Renewable energy investments hit record highs as nations accelerate their transition away from fossil fuels.
+Experts emphasize that immediate policy action remains crucial to prevent irreversible ecological damage.
+[USER]: Based on the project brief: 'Je veux juste que tu crées un employé pour tester et qu'il produise une petite news de 5 lignes sur le climat 
+rien de plus, quelque chose de très cours
+recommence et fais une deuxieme news courte de 5 lignes sur le foot', execute your role: Produce a strict 5-line climate news draft for validation..
+[ASSISTANT]: Global carbon emissions plateaued last quarter amid stricter industrial regulations.
+Ocean acidification levels continue to rise, threatening marine biodiversity hotspots.
+New satellite data confirms accelerated glacier retreat in the Himalayan region.
+Governments pledge increased funding for drought-resistant agricultural technologies.
+Experts stress that rapid decarbonization remains essential to meet Paris Agreement goals.
+[USER]: Based on the project brief: 'Je veux juste que tu crées un employé pour tester et qu'il produise une petite news de 5 lignes sur le climat 
+rien de plus, quelque chose de très cours
+recommence et fais une deuxieme news courte de 5 lignes sur le foot', execute your role: Produce a strict 5-line climate news draft for validation..
+[ASSISTANT]: Global sea levels rose by 4.5 millimeters last year due to thermal expansion and ice sheet loss.
+Extreme weather events cost economies over $300 billion, prompting urgent infrastructure upgrades.
+Carbon capture technology deployment accelerates as major industries seek net-zero compliance.
+Deforestation rates in the Amazon drop slightly following new international conservation agreements.
+Climate scientists urge policymakers to prioritize adaptation strategies alongside emission reductions.
+[USER]: PROJECT ITERATION: v2
+CURRENT PROJECT BRIEF: 'Je veux juste que tu crées un résumé de 2 news, une sur le climat, une autre sur la coupe du monde de football 2026. Rien de plus, quelque chose de court, 5 lignes par news pas plus. '
+
+TEAM CONTEXT & HISTORY:
+
+
+YOUR TASK: Produce a strict 5-line climate news draft for validation.
+Execute your production focusing on current iteration requirements.
+[ASSISTANT]: Global average temperatures breached 1.5°C above pre-industrial levels for the first full calendar year.
+Accelerating Arctic ice loss is disrupting jet stream patterns, intensifying extreme weather events worldwide.
+Major economies announced a joint $500 billion fund to accelerate renewable energy grid modernization.
+Ocean heat content reached record highs, severely impacting coral reef ecosystems and fisheries globally.
+Scientists warn that without immediate emission cuts, irreversible tipping points could be triggered by 2035.
+
+--- [CURRENT USER INSTRUCTION] ---
+PROJECT ITERATION: v3
+CURRENT PROJECT BRIEF: 'Je veux juste que tu crées un résumé de 2 news, une sur la formule 1 en 2026, une autre sur Max Verstapen. Rien de plus, quelque chose de court, 5 lignes par news pas plus. '
+
+TEAM CONTEXT & HISTORY:
+
+
+YOUR TASK: Produce a strict 5-line climate news draft for validation.
+Execute your production focusing on current iteration requirements.

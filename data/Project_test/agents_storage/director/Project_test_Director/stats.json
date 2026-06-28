@@ -1,8 +1,8 @@
 {
-    "tasks_started": 6,
+    "tasks_started": 10,
     "tasks_validated": 1,
     "tasks_failed": 0,
-    "tokens_produced": 8021,
-    "total_work_time_sec": 270.8544719219208,
-    "average_time_per_task_sec": 45.142411986986794
+    "tokens_produced": 13067,
+    "total_work_time_sec": 486.3500409126282,
+    "average_time_per_task_sec": 48.635004091262815
 }

@@ -25,22 +25,37 @@ class AIAgent:
         self.stats = load_json(self.stats_file, {})
         self.memory = load_json(self.memory_file, [])
 
+
+
     def save_state(self):
         """Saves memory and statistics to disk"""
         save_json(self.stats_file, self.stats)
         save_json(self.memory_file, self.memory)
 
+
+
     def ask(self, user_message: str) -> str:
-        """Sends the task to Ollama via the explicit client"""
+        """Sends the task to Ollama and logs the full interaction"""
         start_time = time.time()
         self.stats["tasks_started"] += 1
+
+        # Construction du prompt complet pour la transparence
+        full_interaction_log = f"--- [SYSTEM PROMPT] ---\n{self.system_prompt}\n\n"
+        full_interaction_log += "--- [MEMORY HISTORY] ---\n"
+        for m in self.memory:
+            full_interaction_log += f"[{m['role'].upper()}]: {m['content']}\n"
+        full_interaction_log += f"\n--- [CURRENT USER INSTRUCTION] ---\n{user_message}"
+
+        # Sauvegarde du prompt brut envoyé
+        prompt_log_path = os.path.join(self.agent_dir, "last_full_prompt.txt")
+        with open(prompt_log_path, 'w', encoding='utf-8') as f:
+            f.write(full_interaction_log)
 
         messages = [{"role": "system", "content": self.system_prompt}]
         messages.extend(self.memory)
         messages.append({"role": "user", "content": user_message})
 
         try:
-            # Use of self.client instead of global ollama
             response = self.client.chat(model=self.model_name, messages=messages)
             
             end_time = time.time()
@@ -62,6 +77,8 @@ class AIAgent:
             self.save_state()
             return f"Critical error for agent {self.name}: {str(e)}"
 
+
+
     def log_validation(self, success: bool):
         """Called to validate or reject the work"""
         if success:
@@ -70,9 +87,12 @@ class AIAgent:
             self.stats["tasks_failed"] += 1
         self.save_state()
 
+
+
     def save_artifact(self, filename: str, content: str) -> str:
         """Saves a validated production in the agent's dedicated folder."""
         filepath = os.path.join(self.agent_dir, filename)
         with open(filepath, 'w', encoding='utf-8') as f:
             f.write(content)
         return filepath
+
