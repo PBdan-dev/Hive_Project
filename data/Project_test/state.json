@@ -1,0 +1,160 @@
+{
+    "display_name": "Project test",
+    "brief": "Je veux juste que tu crées un résumé de 2 news, une sur le climat, une autre sur la coupe du monde de football 2026. Rien de plus, quelque chose de court, 5 lignes par news pas plus. ",
+    "status": "Completed",
+    "current_phase": "Iteration v2 Delivered",
+    "completed_tasks": [
+        "employee_Project_test_Content_Writer_Employee_v2",
+        "manager_Project_test_Content_Manager_v2",
+        "director_final_v2"
+    ],
+    "history": [
+        {
+            "phase": "Manager Content Initialization",
+            "detail": "Manager Project_test_Content_Manager defined the sub-tasks for their team."
+        },
+        {
+            "phase": "Execution Resumed",
+            "detail": "The execution loop has been triggered."
+        },
+        {
+            "phase": "Employee Writer Working",
+            "detail": "Employee Project_test_Content_Writer_Employee is processing task."
+        },
+        {
+            "phase": "Employee Writer Done",
+            "detail": "Employee Project_test_Content_Writer_Employee finalized production."
+        },
+        {
+            "phase": "Manager Content Validation",
+            "detail": "Manager Project_test_Content_Manager is aggregating team productions."
+        },
+        {
+            "phase": "Manager Content Done",
+            "detail": "Manager Project_test_Content_Manager completed module integration."
+        },
+        {
+            "phase": "Director Final Integration",
+            "detail": "Director Project_test_Director is building the final solution package."
+        },
+        {
+            "phase": "Project Delivery",
+            "detail": "Director integrated all modules."
+        },
+        {
+            "phase": "Execution Resumed",
+            "detail": "The execution loop has been triggered."
+        },
+        {
+            "phase": "Employee Writer Working",
+            "detail": "Employee Project_test_Content_Writer_Employee is processing task."
+        },
+        {
+            "phase": "Employee Writer Done",
+            "detail": "Employee Project_test_Content_Writer_Employee finalized production."
+        },
+        {
+            "phase": "Manager Content Validation",
+            "detail": "Manager Project_test_Content_Manager is aggregating team productions."
+        },
+        {
+            "phase": "Manager Content Done",
+            "detail": "Manager Project_test_Content_Manager completed module integration."
+        },
+        {
+            "phase": "Director Final Integration",
+            "detail": "Director Project_test_Director is building the final solution package."
+        },
+        {
+            "phase": "Project Delivery",
+            "detail": "Director integrated all modules."
+        },
+        {
+            "phase": "Execution Resumed",
+            "detail": "The execution loop has been triggered."
+        },
+        {
+            "phase": "Employee Writer Working",
+            "detail": "Employee Project_test_Content_Writer_Employee is processing task."
+        },
+        {
+            "phase": "Employee Writer Done",
+            "detail": "Employee Project_test_Content_Writer_Employee finalized production."
+        },
+        {
+            "phase": "Manager Content Validation",
+            "detail": "Manager Project_test_Content_Manager is aggregating team productions."
+        },
+        {
+            "phase": "Manager Content Done",
+            "detail": "Manager Project_test_Content_Manager completed module integration."
+        },
+        {
+            "phase": "Director Final Integration",
+            "detail": "Director Project_test_Director is building the final solution package."
+        },
+        {
+            "phase": "Execution Resumed",
+            "detail": "The execution loop has been triggered."
+        },
+        {
+            "phase": "Director Final Integration",
+            "detail": "Director Project_test_Director is building the final solution package."
+        },
+        {
+            "phase": "Project Delivery",
+            "detail": "Director integrated all modules."
+        },
+        {
+            "phase": "Project Delivery",
+            "detail": "Director integrated all modules."
+        },
+        {
+            "phase": "Execution v2 Started",
+            "detail": "Processing loop for iteration 2."
+        },
+        {
+            "phase": "Director analyzing update v2",
+            "detail": "Updating Director memory with new scope brief."
+        },
+        {
+            "phase": "Employee Writer Working (v2)",
+            "detail": "Employee Project_test_Content_Writer_Employee processing iteration 2."
+        },
+        {
+            "phase": "Employee Writer Done (v2)",
+            "detail": "Employee Project_test_Content_Writer_Employee finalized production for v2."
+        },
+        {
+            "phase": "Manager Content Validation (v2)",
+            "detail": "Manager Project_test_Content_Manager aggregating v2 productions."
+        },
+        {
+            "phase": "Manager Content Done (v2)",
+            "detail": "Manager Project_test_Content_Manager completed module v2."
+        },
+        {
+            "phase": "Director Final Integration v2",
+            "detail": "Director Project_test_Director building the package for v2."
+        },
+        {
+            "phase": "Iteration v2 Delivered",
+            "detail": "Director integrated all modules for version 2."
+        }
+    ],
+    "team_structure": {
+        "managers": [
+            {
+                "team_name": "Content",
+                "role": "Manage test agent lifecycle and verify 5-line climate news output.",
+                "employees": [
+                    {
+                        "task_name": "Writer",
+                        "role": "Produce a strict 5-line climate news draft for validation."
+                    }
+                ]
+            }
+        ]
+    },
+    "iteration": 2
+}

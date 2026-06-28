@@ -78,25 +78,41 @@ def run_live_workflow(proj_id, brief):
             status.update(label="✅ Cycle execution block finalized!", state="complete")
 
 # --- 3. DASHBOARD GRAPHIQUE ---
-def display_agent_card(agent_path, icon):
+
+def display_agent_card(agent_path, icon, is_active=False):
     agent_name = os.path.basename(agent_path)
-    with st.expander(f"{icon} {agent_name}"):
+    # Animation/Indicateur visuel si l'agent est en train de travailler ou en attente
+    display_icon = "🔄" if is_active else icon
+    
+    with st.expander(f"{display_icon} {agent_name}"):
+        # 1. Stats
         stats_path = os.path.join(agent_path, "stats.json")
         if os.path.exists(stats_path):
-            with open(stats_path, 'r', encoding='utf-8') as f:
-                st.json(json.load(f))
+            st.json(load_json(stats_path, {}))
         else:
             st.write("No statistics available.")
+            
+        # 2. System Prompt
+        prompt_path = os.path.join(agent_path, "system_prompt.txt")
+        if os.path.exists(prompt_path):
+            with open(prompt_path, 'r', encoding='utf-8') as f:
+                st.text_area("System Prompt", f.read(), height=150, disabled=True)
 
 def display_project_dashboard(proj_id):
-    """Génère l'affichage dynamique (Modifications + Hiérarchie + Artifacts)"""
+    """Génère l'affichage dynamique (Hiérarchie + Artifacts)"""
     proj_dir = os.path.join(root_dir, "data", proj_id)
     state_file = os.path.join(proj_dir, "state.json")
-    state = load_json(state_file)
+    state = load_json(state_file, {})
     
     st.divider()
     
-    # Édition des métadonnées sous le projet
+    # Bouton de fermeture du dashboard
+    if st.button("❌ Close Dashboard"):
+        del st.session_state["active_dashboard"]
+        st.rerun()
+        return
+
+    # Édition des métadonnées
     st.subheader("⚙️ Project Configuration")
     col_name, col_brief = st.columns([1, 2])
     with col_name:
@@ -108,11 +124,11 @@ def display_project_dashboard(proj_id):
         state["display_name"] = new_name
         state["brief"] = new_brief
         save_json(state_file, state)
-        st.success("Metadata and prompt changes recorded!")
+        st.success("Metadata updated!")
         st.session_state.projects = load_existing_projects()
         st.rerun()
 
-    # Boutons d'action : Pause / Reprise / Lancement
+# Boutons d'action
     st.write(f"**Execution State :** `{state.get('status')}` | **Phase :** `{state.get('current_phase')}`")
     col_run, col_pause = st.columns(2)
     with col_run:
@@ -121,38 +137,77 @@ def display_project_dashboard(proj_id):
                 run_live_workflow(proj_id, state.get("brief"))
                 st.session_state.projects = load_existing_projects()
                 st.rerun()
+        elif state.get("status") == "Completed":
+            if st.button("🔄 Restart / Update Project", key=f"restart_btn_{proj_id}", type="primary"):
+            # Incrémenter la version
+                current_v = state.get("iteration", 1)
+                state["iteration"] = current_v + 1
+                state["status"] = "Initialized"
+                state["completed_tasks"] = []  # On réinitialise pour permettre la repasse
+                save_json(state_file, state)
+                st.success(f"Project ready for Iteration {state['iteration']}!")
+                st.rerun()
     with col_pause:
         if state.get("status") == "In Progress":
             if st.button("⏸️ Request Pause", key=f"pause_btn_{proj_id}"):
                 state["status"] = "Paused"
                 save_json(state_file, state)
-                st.warning("The system will suspend operations after completing the current atomic agent task.")
+                st.warning("Pausing after current atomic task...")
                 st.rerun()
 
     st.divider()
-    col_hierarchy, col_artifacts = st.columns([2, 1])
     
-    with col_hierarchy:
-        st.subheader("👥 Live Team Layout")
-        agents_dir = os.path.join(proj_dir, "agents_storage")
-        
-        for cat, icon in [("director", "👑"), ("managers", "👔"), ("employees", "**👷**")]:
-            path = os.path.join(agents_dir, cat)
-            if os.path.exists(path):
-                for a in os.listdir(path): display_agent_card(os.path.join(path, a), icon)
+    # Variables d'état pour les animations
+    is_running = state.get("status") == "In Progress"
+    completed = state.get("completed_tasks", [])
+    team_structure = state.get("team_structure", {})
 
-    with col_artifacts:
-        st.subheader("📄 Generated Artifacts")
-        if os.path.exists(state_file):
-            with st.expander("📊 state.json (System Log)", expanded=False):
-                st.json(load_json(state_file))
+    st.subheader("🏢 Visual Hierarchy & Live Team")
+    
+    if not team_structure:
+        st.info("Team structure not generated yet. Start the engine to initialize.")
+    else:
+        # Niveau 1 : Directeur (Centré)
+        col_space1, col_dir, col_space2 = st.columns([1, 2, 1])
+        with col_dir:
+            dir_path = os.path.join(proj_dir, "agents_storage", "director", f"{proj_id}_Director")
+            display_agent_card(dir_path, "👑", is_active=(is_running and "director_final" not in completed))
+        
+        st.write("---")
+        
+        # Niveau 2 & 3 : Managers et leurs Employés respectifs
+        managers = team_structure.get("managers", [])
+        if managers:
+            cols = st.columns(len(managers))
+            for i, mgr in enumerate(managers):
+                with cols[i]:
+                    team = mgr['team_name']
+                    mgr_name = f"{proj_id}_{team}_Manager"
+                    mgr_path = os.path.join(proj_dir, "agents_storage", "managers", mgr_name)
                     
-        for root_path, _, files in os.walk(proj_dir):
-            for file in files:
-                if file.startswith("artifact_") and file.endswith(".md"):
-                    with st.expander(f"📝 {file}"):
-                        with open(os.path.join(root_path, file), 'r', encoding='utf-8') as f:
-                            st.markdown(f.read())
+                    st.markdown(f"#### 👔 Team {team}")
+                    display_agent_card(mgr_path, "👔", is_active=(is_running and f"manager_{mgr_name}" not in completed))
+                    
+                    for emp in mgr.get("employees", []):
+                        task = emp['task_name']
+                        emp_name = f"{proj_id}_{team}_{task}_Employee"
+                        emp_path = os.path.join(proj_dir, "agents_storage", "employees", emp_name)
+                        
+                        display_agent_card(emp_path, "👷", is_active=(is_running and f"employee_{emp_name}" not in completed))
+
+    st.divider()
+    st.subheader("📄 Generated Files")
+    if os.path.exists(state_file):
+        with st.expander("📊 state.json (System Log)", expanded=False):
+            st.json(load_json(state_file, {}))
+                
+    for root_path, _, files in os.walk(proj_dir):
+        for file in files:
+            # Filtre pour inclure les artifacts ET les team_context
+            if (file.startswith("artifact_") or file.startswith("team_context_")) and file.endswith(".md"):
+                with st.expander(f"📝 {file}"):
+                    with open(os.path.join(root_path, file), 'r', encoding='utf-8') as f:
+                        st.markdown(f.read())
 
 # --- 4. POP-UP DE CREATION (Flux corrigé) ---
 @st.dialog("Create New Project")

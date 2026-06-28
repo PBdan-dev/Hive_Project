@@ -1,0 +1,98 @@
+{
+    "display_name": "Child Story 2",
+    "brief": "I want a child story with a magical puppet\nadd some moral to the story and make some adventure. \nThe story is very short, less than 1000 words",
+    "status": "Completed",
+    "current_phase": "Iteration v1 Delivered",
+    "completed_tasks": [
+        "employee_Child_Story_2_Fable_Arc_Employee_v1",
+        "employee_Child_Story_2_Fable_Charm_Employee_v1",
+        "employee_Child_Story_2_Fable_Lesson_Employee_v1",
+        "employee_Child_Story_2_Fable_Prune_Employee_v1",
+        "manager_Child_Story_2_Fable_Manager_v1",
+        "director_final_v1"
+    ],
+    "history": [
+        {
+            "phase": "Manager Fable Initialization",
+            "detail": "Manager Child_Story_2_Fable_Manager defined the sub-tasks for their team."
+        },
+        {
+            "phase": "Execution v1 Started",
+            "detail": "Processing loop for iteration 1."
+        },
+        {
+            "phase": "Employee Arc Working (v1)",
+            "detail": "Employee Child_Story_2_Fable_Arc_Employee processing iteration 1."
+        },
+        {
+            "phase": "Employee Arc Done (v1)",
+            "detail": "Employee Child_Story_2_Fable_Arc_Employee finalized production for v1."
+        },
+        {
+            "phase": "Employee Charm Working (v1)",
+            "detail": "Employee Child_Story_2_Fable_Charm_Employee processing iteration 1."
+        },
+        {
+            "phase": "Employee Charm Done (v1)",
+            "detail": "Employee Child_Story_2_Fable_Charm_Employee finalized production for v1."
+        },
+        {
+            "phase": "Employee Lesson Working (v1)",
+            "detail": "Employee Child_Story_2_Fable_Lesson_Employee processing iteration 1."
+        },
+        {
+            "phase": "Employee Lesson Done (v1)",
+            "detail": "Employee Child_Story_2_Fable_Lesson_Employee finalized production for v1."
+        },
+        {
+            "phase": "Employee Prune Working (v1)",
+            "detail": "Employee Child_Story_2_Fable_Prune_Employee processing iteration 1."
+        },
+        {
+            "phase": "Employee Prune Done (v1)",
+            "detail": "Employee Child_Story_2_Fable_Prune_Employee finalized production for v1."
+        },
+        {
+            "phase": "Manager Fable Validation (v1)",
+            "detail": "Manager Child_Story_2_Fable_Manager aggregating v1 productions."
+        },
+        {
+            "phase": "Manager Fable Done (v1)",
+            "detail": "Manager Child_Story_2_Fable_Manager completed module v1."
+        },
+        {
+            "phase": "Director Final Integration v1",
+            "detail": "Director Child_Story_2_Director building the package for v1."
+        },
+        {
+            "phase": "Iteration v1 Delivered",
+            "detail": "Director integrated all modules for version 1."
+        }
+    ],
+    "team_structure": {
+        "managers": [
+            {
+                "team_name": "Fable",
+                "role": "Orchestrates narrative construction, adventure pacing, magical integration, moral embedding, and strict word-count enforcement.",
+                "employees": [
+                    {
+                        "task_name": "Arc",
+                        "role": "Maps adventure sequence and plot progression"
+                    },
+                    {
+                        "task_name": "Charm",
+                        "role": "Develops magical puppet mechanics and presence"
+                    },
+                    {
+                        "task_name": "Lesson",
+                        "role": "Weaves ethical theme into story resolution"
+                    },
+                    {
+                        "task_name": "Prune",
+                        "role": "Trims and polishes text to guarantee sub-1000-word limit"
+                    }
+                ]
+            }
+        ]
+    }
+}
